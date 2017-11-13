@@ -1,0 +1,40 @@
+
+		<!--Daily Report Code -->
+		<div ng-controller="dailyReportCtrl"> <!-- angular/sonarqube-report-angular.js -->
+			<table border="1">
+			  <tr>
+				<thead>
+					<tr>
+						<th rowspan="2">ID</th>
+						<th rowspan="2">GROUP</th>
+						<th rowspan="2">Projects</th>
+						<th colspan="5" class="metric">Metrics</th>
+					</tr>
+					<tr>
+						<th>Code Coverage <br>(AVG) % </th>
+						<th>Test Case<br>(SUM)</th>
+						<th>Technical Debt (SUM)<br> <a class="clickable" ng-click="dataType='min'">MIN</a> | <a class="clickable" ng-click="dataType='hour'">HOUR</a> | <a class="clickable" ng-click="dataType='day'">DAY</a></th>
+						<th>Code Smell<br>(SUM)</th>
+						<th>Vulnerabilities<br>(SUM)</th>
+					</tr>
+				</thead>
+			  </tr>
+			  <!-- Report Data Here -->
+			  <tbody ng-init="dataType='min'">
+				  <tr ng-repeat="d in dailyData">
+					<td>{{ $index + 1 }}</td>
+					<td ng-if="$index==0" rowspan="{{dailyData.length}}">IPOS</td>
+					<td><a href="#!chart/all/{{d.id}}/{{d.name}}/{{dataType}}">{{ d.name }}</a></td>
+					<td><a href="#!chart/coverage/{{d.id}}/{{d.name}}">{{ d.coverage }}</a></td>
+					<td><a href="#!chart/test_case/{{d.id}}/{{d.name}}">{{ d.testcase }}</a></td>
+					<td ng-if="dataType=='min'"><a href="#!chart/technical_debt/{{d.id}}/{{d.name}}/{{dataType}}">{{ d.techDebt }}</a> min</td>
+                    <td ng-if="dataType=='hour'"><a href="#!chart/technical_debt/{{d.id}}/{{d.name}}/{{dataType}}">{{ d.techDebt / 60 | number : 3 }}</a> hour</td>
+                    <td ng-if="dataType=='day'"><a href="#!chart/technical_debt/{{d.id}}/{{d.name}}/{{dataType}}">{{ d.techDebt / 60 / 8 | number : 3 }}
+					</a> day</td>
+					<td><a href="#!chart/code_smell/{{d.id}}/{{d.name}}">{{ d.codeSmell }}</a></td>
+					<td><a href="#!chart/vulnerability/{{d.id}}/{{d.name}}">{{ d.vulnerability }}</a></td>
+				  </tr>
+			  </tbody>
+			</table>
+		</div>
+		<!-- End Daily Report Code -->
